@@ -11,31 +11,69 @@ sample worlds supplied in the starter folder.
 
 
 def main():
-    for i in range(8):
-        fill_row()
-        change_row()
+    fill_row()
+    while right_is_clear():
+        if beepers_present():
+            reposition_next_row()
+            fill_row()
+        else:
+            reposition_next_row()
+            put_beeper()
+            if front_is_clear():
+                move()
+            fill_row()
 
 
 def fill_row():
     while front_is_clear():
-        put_beeper()
         move()
+        put_beeper()
         if front_is_clear():
             move()
+    return_to_start()
+
+def reposition_next_row():
+    """
+    Karel moves to the row that is directly above.
+
+    Pre-condition: Karel is facing to the wall (West).
+
+    Post-condition: Karel is facing away from the wall (East) and is in the row above.
+    """
+    turn_right()
+    move()
+    turn_right()
 
 
-def change_row():
-    if facing_east():
-        turn_left()
+def return_to_start():
+    """
+    Karel goes back to the start of the row.
+
+    Pre-condition: Karel is at the end of the row, facing to the wall.
+
+    Post-condition: Karel is now at the start of the same row
+    """
+    turn_around()
+    while front_is_clear():
         move()
-        turn_left()
-    else:
-        turn_right()
-        move()
-        turn_right()
+
+
+def turn_around():
+    """
+    Pre-condition: None
+
+    Post-condition: Karel is now facing to the opposite direction of what it was facing before
+    """
+    turn_left()
+    turn_left()
 
 
 def turn_right():
+    """
+    Pre-condition: None
+
+    Post-condition: Karel is now facing to the right of whichever direction it was facing before
+    """
     for i in range(3):
         turn_left()
 
