@@ -47,8 +47,9 @@ def find_midpoint():
     Post-condition: Karel is one step away from the midpoint beeper, facing away from it. All the beepers that are not the midpoint one have been succesfully picked up by Karel.
     """
     while beepers_present():
-        move()
-        move()
+        for i in range(2):
+            move()
+            
         if no_beepers_present():
             while no_beepers_present():
                 move()
