@@ -15,11 +15,14 @@ assume that it is at least as tall as it is wide.
 
 def main():
     put_first_beepers()
-    find_midpoint()
+
+    # In worlds smaller than 3 columns wide front will not be clear. This prevents from crashing
+    if front_is_clear():
+        find_midpoint()
+        # Moves Karel to the final position, standing in the beeper
+        turn_around()
+        move()
     
-    # Moves Karel to the final position, standing in the beeper
-    turn_around()
-    move()
 
 def put_first_beepers():
     """
@@ -32,8 +35,11 @@ def put_first_beepers():
     put_beeper()
     while front_is_clear():
         move()
-    put_beeper()
-    turn_around()
+
+    # Prevent from placing two beepers in one column worlds midpoint
+    if no_beepers_present():
+        put_beeper()
+        turn_around()
 
 
 def find_midpoint():
