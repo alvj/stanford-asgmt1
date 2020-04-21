@@ -12,25 +12,42 @@ sample worlds supplied in the starter folder.
 
 def main():
     fill_row()
+    return_to_start()
+
+    # Karel checks if the right is clear so it can find the top wall and stop filling rows
     while right_is_clear():
+        # If the row below starts with a beeper Karel does not have to do anything extra
         if beepers_present():
             reposition_next_row()
             fill_row()
+            return_to_start()
+        # If the row below starts with no beeper, Karel has to place a beeper in the first corner
+        # of the next row
         else:
             reposition_next_row()
             put_beeper()
             if front_is_clear():
                 move()
             fill_row()
+            return_to_start()
 
 
 def fill_row():
+    """
+    Karel checks if the front is clear so it can move forward and puts a beeper. Then checks again
+    to see if it can move again, without placing a beeper. This creates the checkerboard pattern.
+    Karel will loop this until it finds a wall.
+
+    Pre-condition: Karel is on the left side of a row, facing East.
+
+    Post-condition: Karel is at the end of the row, facing to the wall (East).
+    Karel has placed a beeper every two rows.
+    """
     while front_is_clear():
         move()
         put_beeper()
         if front_is_clear():
             move()
-    return_to_start()
 
 def reposition_next_row():
     """
